@@ -56,30 +56,22 @@ const posts = [
     }
 ];
 
-/*
-Milestone 2 - 
-Prendendo come riferimento il layout di esempio presente nell’html, 
-stampiamo i post del nostro feed.
-Milestone 3 - 
-Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone e
-incrementiamo il counter dei likes relativo.
-Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
-*/
+// Milestone 2 - 
+// Stampiamo i post del nostro feed.
 const container = document.getElementById('container');
 posts.forEach((element) => {
 
-    const {id, content, media, likes, created} = element;
-    console.log(element.author);
+    const {id, content, media, likes, created, author} = element;
 
     const posts = `
     <div class="post">
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
+                        <img class="profile-pic" src="${author.image}" alt="${author.name}">                    
                     </div>
                     <div class="post-meta__data">
-                        <div class="post-meta__author">Phil Mangione</div>
+                        <div class="post-meta__author">${author.name}</div>
                         <div class="post-meta__time">${created}</div>
                     </div>                    
                 </div>
@@ -105,24 +97,21 @@ posts.forEach((element) => {
     container.innerHTML += posts;
 })
 
-const likeBtn = document.querySelector('.likes__cta');
+// Milestone 3
+// Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone 
+// e incrementiamo il counter dei likes relativo.
+const counters = document.querySelectorAll('.js-likes-counter');
+console.log(counters);
 
-likeBtn.addEventListener('click',
-    function(){
-        likeBtn.classList.add('like-button--liked')
-    
+const likeBtns = document.querySelectorAll('.js-like-button');
+likeBtns.forEach((element, index) => {
+    element.addEventListener('click',
+    function(event){
+        event.preventDefault();
+        element.classList.add('like-button--liked');
+        let counterIesimo = counters[index];
+        let valueContatore = parseInt(counterIesimo.innerHTML);
+        valueContatore++;
+        counterIesimo.innerHTML = valueContatore;
+    });
 });
-
-
-
-
-
-
-
-
-// FUNZIONI 
-function createElementWithClass (typeTag, nameClass) {
-    const newElement = document.createElement(typeTag);
-    newElement.classList.add(nameClass);
-    return newElement;
-}
